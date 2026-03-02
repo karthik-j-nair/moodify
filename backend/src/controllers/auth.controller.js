@@ -1,7 +1,7 @@
 const userModel = require("../models/user.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const blacklistModel = require("../models/blacklist.model");
+const redis = require("../config/cache")
 
 
 
@@ -49,16 +49,16 @@ async function registerController(req, res) {
 
 
 async function loginController(req, res) {
-    const {username, email, password} = req.body;
+    const { username, email, password } = req.body;
 
     const user = await userModel.findOne({
         $or: [
-            {username},
-            {email}
+            { username },
+            { email }
         ]
     }).select("+password");
 
-    if(!user) {
+    if (!user) {
         return res.status(404).json({
             message: "Invalid Credentials"
         });
@@ -66,7 +66,7 @@ async function loginController(req, res) {
 
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
-    if(!isPasswordCorrect){
+    if (!isPasswordCorrect) {
         return res.status(401).json({
             message: "Invalid Credientials"
         });
@@ -96,7 +96,7 @@ async function getMeController(req, res) {
 
     const user = await userModel.findById(id);
 
-    if(!user) {
+    if (!user) {
         return res.status(400).json({
             message: "User does't exist"
         });
@@ -114,9 +114,9 @@ async function logoutUserController(req, res) {
 
     res.clearCookie("token");
 
-    await blacklistModel.create({
-        token
-    });
+    await redis.set(token, Date.now().toString(), "EX", 60 * 60);
+
+    // redis store data in key value pair and only stores in string format so we are converting data.now to stirng
 
     res.status(200).json({
         message: "Logout successfull"
