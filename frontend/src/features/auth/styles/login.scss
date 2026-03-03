@@ -1,0 +1,64 @@
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+
+    .form-container {
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+
+        h1 {
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+
+            label {
+                display: block;
+                margin-bottom: 0.5rem;
+                color: rgba(245, 245, 245, 0.673);
+            }
+
+            .input-wrapper {
+                position: relative;
+
+                input {
+                    width: 100%;
+                    padding: 0.5rem;
+                    padding-right: 2.5rem; /* space for icon */
+                    border: 1.5px solid #ccc;
+                    border-radius: 4px;
+                    font-size: 1rem;
+                    transition: all 0.3s ease-in-out;
+
+                    &:focus {
+                        border-color: #6200ffaf;
+                        outline: none;
+                    }
+                }
+
+                .eye-icon {
+                    position: absolute;
+                    top: 50%;
+                    right: 0.75rem;
+                    transform: translateY(-50%);
+                    display: flex;
+                    align-items: center;
+                    color: #888;
+
+                    &:hover {
+                        color: #6200ffaf;
+                    }
+                }
+            }
+        }
+
+        
+    }
+}
